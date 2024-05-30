@@ -1,6 +1,7 @@
 package org.poorman.blogs.servlet;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -24,10 +25,12 @@ public class LoginServlet extends HttpServlet {
 
         UserService userService = new UserServiceImpl();
         try {
-            message = userService.login(username, password);
+            try {
+                message = userService.login(username, password);
+            } catch (ClassNotFoundException | NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         request.setAttribute("message", message);

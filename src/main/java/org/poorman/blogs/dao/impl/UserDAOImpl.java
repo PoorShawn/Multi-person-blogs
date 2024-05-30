@@ -27,6 +27,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setPassword(rs.getString("password"));
                     user.setId(rs.getString("id"));
                     user.setRole(rs.getString("role"));
+                    user.setSalt(rs.getString("salt"));
                    // 实际应用中不应直接存储明文密码，此处仅为示例
                 }
             }

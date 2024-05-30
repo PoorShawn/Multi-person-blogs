@@ -5,6 +5,15 @@ public class User {
     String username;
     String password;
     String role;
+    String salt;
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public String getId() {
         return id;
