@@ -13,8 +13,8 @@
 <body>
 <br/>
 <form action="${pageContext.request.contextPath}/login-servlet" method="post">
-    用户名：<input type="text" name="username"><br>
-    密码：<input type="password" name="password"><br>
+    用户名：<input type="text" name="username" required><br>
+    密码：<input type="password" name="password" required><br>
     <input type="submit" value="登录">
 </form>
 <br/>

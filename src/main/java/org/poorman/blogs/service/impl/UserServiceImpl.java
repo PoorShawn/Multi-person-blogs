@@ -15,22 +15,22 @@ public class UserServiceImpl implements UserService {
     String message = "";
 
     @Override
-    public String login(String username, String password) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
+    public User login(String username, String password) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
         if (Objects.equals(username, "") || Objects.equals(password, "")) {
-            message ="用户名或密码为空";
-            return message;
+            //message ="用户名或密码为空";
+            return null;
         }
 
         UserDAO userDAO = new UserDAOImpl();
         User user = userDAO.getUserByUsername(username);
 
         if (!PasswordHashing.verifyPassword(password, user.getSalt(), user.getPassword())) {
-            message ="用户名或密码错误";
-            return message;
+            //message ="用户名或密码错误";
+            return null;
         }
 
         message = "登录成功";
-        return message;
+        return user;
     }
 
     @Override

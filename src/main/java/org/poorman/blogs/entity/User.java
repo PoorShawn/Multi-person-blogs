@@ -1,7 +1,7 @@
 package org.poorman.blogs.entity;
 
 public class User {
-    String id;
+    int id;
     String username;
     String password;
     String role;
@@ -15,11 +15,11 @@ public class User {
         this.salt = salt;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
