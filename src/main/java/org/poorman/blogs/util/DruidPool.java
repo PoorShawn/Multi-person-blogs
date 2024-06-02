@@ -1,32 +1,46 @@
 package org.poorman.blogs.util;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.poorman.blogs.dao.UserDAO;
-import org.poorman.blogs.dao.impl.UserDAOImpl;
-import org.poorman.blogs.entity.User;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class DruidPool {
-    private static final DruidDataSource dataSource;
+    static DruidDataSource dataSource = new DruidDataSource();
 
     static {
-        dataSource = new DruidDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver"); // MySQL驱动类名
-        dataSource.setUrl("jdbc:mysql://localhost:3306/blogs");
-        dataSource.setUsername("root");
-        dataSource.setPassword("123");
-        // 可以根据需要设置更多配置
-        dataSource.setInitialSize(5);
-        dataSource.setMaxActive(10);
+        Properties props = new Properties();
+        InputStream fis = DruidPool.class.getClassLoader().getResourceAsStream("druid.properties");
+        try (fis) {
+            if (fis == null) {
+                throw new RuntimeException("Cannot find druid.properties in classpath.");
+            }
+            props.load(fis);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading properties file.", e);
+        }
+
+        dataSource.setDriverClassName(props.getProperty("driverClassName"));
+        dataSource.setUrl(props.getProperty("url"));
+        dataSource.setUsername(props.getProperty("username"));
+        dataSource.setPassword(props.getProperty("password"));
+
+        dataSource.setInitialSize(Integer.parseInt(props.getProperty("initialSize")));
+        dataSource.setMaxWait(Integer.parseInt(props.getProperty("maxWait")));
+        dataSource.setMaxActive(Integer.parseInt(props.getProperty("maxActive")));
     }
 
-    public static DruidDataSource getDataSource() {
+        public static DruidDataSource getDataSource() {
         return dataSource;
     }
+
+//  public static void main(String[] args) {
+//        DruidDataSource dataSource = loadDataSourceFromProperties();
+//        try (Connection conn = dataSource.getConnection()) {
+//            System.out.println("数据库连接成功：" + conn);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
