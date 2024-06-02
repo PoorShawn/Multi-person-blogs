@@ -1,20 +1,21 @@
 package org.poorman.blogs.dao.impl;
 
 import org.poorman.blogs.dao.PostDAO;
+import org.poorman.blogs.util.DruidPool;
 
 import java.sql.*;
 
 public class PostDAOImpl implements PostDAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/blogs";
-    private static final String USER = "root";
-    private static final String PASS = "123";
+//    private static final String DB_URL = "jdbc:mysql://localhost:3306/blogs";
+//    private static final String USER = "root";
+//    private static final String PASS = "123";
 
     @Override
     public boolean uploadPost(String title, String content, int author_id) throws ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
+//        Class.forName("com.mysql.cj.jdbc.Driver");
         boolean isUploaded = false;
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DruidPool.getDataSource().getConnection();
              PreparedStatement pstmt = conn.prepareStatement("INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)")) {
 
             pstmt.setString(1, title);
