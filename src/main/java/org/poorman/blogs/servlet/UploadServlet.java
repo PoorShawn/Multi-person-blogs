@@ -28,7 +28,14 @@ public class UploadServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         //Get parameters from jsp
         String title = request.getParameter("title");
-        String text = request.getParameter("contentText");
+        String text = request.getParameter("content");
+        if (Objects.equals(title, "") || Objects.equals(text, "") || title == null || text ==null) {
+            message = "标题或内容不能为空";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("/postEdit.jsp").forward(request, response);
+        }
+        System.out.println("title:"+title);
+        System.out.println("text:"+text);
 
         //Get user information from session
         HttpSession session = request.getSession(false); // false表示如果没有Session则返回null，避免创建新的Session
@@ -46,7 +53,7 @@ public class UploadServlet extends HttpServlet {
         if (!IsUpLoaded) {
             message = "上传失败，请重试";
             request.setAttribute("message", message);
-            request.getRequestDispatcher("/postUpload.jsp").forward(request, response);
+            request.getRequestDispatcher("/postEdit.jsp").forward(request, response);
         }
 
         //Call next jsp directly

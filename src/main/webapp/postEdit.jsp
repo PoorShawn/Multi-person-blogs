@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.io.PrintWriter" %><%--
   Created by IntelliJ IDEA.
   User: poorshawn
   Date: 2024/6/5
@@ -11,23 +11,54 @@
     <title>Please edit your post.</title>
 </head>
 <body>
-<!-- Include stylesheet -->
 <link href="css/quill.snow.css" rel="stylesheet" />
 
-<!-- Create the editor container -->
-<div id="editor">
-    <p>Hello World!</p>
-    <p>Some initial <strong>bold</strong> text</p>
-    <p><br /></p>
-</div>
+<form id="postForm" action="${pageContext.request.contextPath}/upload-servlet" method="post">
+    <h3>标题</h3>
+    <label>
+        <textarea name="title" rows="1" cols="8" required></textarea>
+    </label>
+    <br/><br/>
+    <h3>内容</h3>
+    <div id="editor" >
+<%--        <p>Hello World!</p>--%>
+<%--        <p>Some initial <strong>bold</strong> text</p>--%>
+<%--        <p><br /></p>--%>
+    </div>
+    <input type="hidden" id="content" name="content" />
+    <button onclick="submitForm()">Submit</button>
+</form>
 
-<!-- Include the Quill library -->
+<%
+    PrintWriter printWriter = response.getWriter();
+    if(request.getAttribute("message")!= null){
+        printWriter.write((String)request.getAttribute("message"));
+        printWriter.flush();
+    }
+%>
+
 <script src="js/quill.js"></script>
-<!-- Initialize Quill editor -->
 <script>
-    const quill = new Quill('#editor', {
+    var quill = new Quill('#editor', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block', 'image'],
+                [{ list: 'ordered' }, { list: 'bullet' }]
+            ]
+        },
         theme: 'snow'
     });
+    var form = document.querySelector('#postForm');
+    form.onsubmit = function() {
+        // Populate hidden form on submit
+        var content = document.querySelector('input[name=content]');
+
+        //comment.value = JSON.stringify(quill.getContents());
+        content.value = quill.root.innerHTML;
+        console.log(content.value)
+
+    };
 </script>
 </body>
 </html>
