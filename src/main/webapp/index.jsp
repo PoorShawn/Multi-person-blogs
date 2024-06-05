@@ -16,6 +16,7 @@
 %>
 <% if (isLoggedIn) { %>
 <a href="postUpload.jsp">upload post</a>
+<a href="postEdit.jsp">edit post</a>
 <% } %>
 </body>
 </html>
