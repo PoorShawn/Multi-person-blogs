@@ -15,8 +15,9 @@
     boolean isLoggedIn = session.getAttribute("currentUser") != null;
 %>
 <% if (isLoggedIn) { %>
-<a href="postUpload.jsp">upload post</a>
+<%--<a href="postUpload.jsp">upload post</a>--%>
 <a href="postEdit.jsp">edit post</a>
+<a href="${pageContext.request.contextPath}/postDisplay-servlet">display posts</a>
 <% } %>
 </body>
 </html>

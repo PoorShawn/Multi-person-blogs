@@ -1,9 +1,12 @@
 package org.poorman.blogs.dao.impl;
 
 import org.poorman.blogs.dao.PostDAO;
+import org.poorman.blogs.entity.Post;
 import org.poorman.blogs.util.DruidPool;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostDAOImpl implements PostDAO {
 //    private static final String DB_URL = "jdbc:mysql://localhost:3306/blogs";
@@ -34,5 +37,27 @@ public class PostDAOImpl implements PostDAO {
         }
 
         return isUploaded;
+    }
+
+    @Override
+    public List<Post> displayPost() {
+        List<Post> posts = new ArrayList<>();
+
+        try (Connection conn = DruidPool.getDataSource().getConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM posts ORDER BY id DESC");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                String text = rs.getString("content");
+                int author_id = rs.getInt("author_id");
+                posts.add(new Post(id, title, text, author_id));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return posts;
     }
 }

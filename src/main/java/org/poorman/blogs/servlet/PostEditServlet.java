@@ -1,4 +1,0 @@
-package org.poorman.blogs.servlet;
-
-public class PostEditServlet {
-}

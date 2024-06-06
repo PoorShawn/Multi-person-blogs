@@ -3,10 +3,12 @@ package org.poorman.blogs.service.impl;
 import jakarta.servlet.http.HttpSession;
 import org.poorman.blogs.dao.PostDAO;
 import org.poorman.blogs.dao.impl.PostDAOImpl;
+import org.poorman.blogs.entity.Post;
 import org.poorman.blogs.entity.User;
 import org.poorman.blogs.service.PostService;
 
 import java.nio.file.FileStore;
+import java.util.List;
 import java.util.Objects;
 
 public class PostServiceImpl implements PostService {
@@ -20,5 +22,12 @@ public class PostServiceImpl implements PostService {
         //Call PostDAOImpl() to upload post
         PostDAO postDAO = new PostDAOImpl();
         return postDAO.uploadPost(title, text, user.getId());
+    }
+
+    @Override
+    public List<Post> getPosts() {
+        //Call PostDAOImpl() to upload post
+        PostDAO postDAO = new PostDAOImpl();
+        return postDAO.displayPost();
     }
 }

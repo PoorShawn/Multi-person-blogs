@@ -3,6 +3,13 @@ package org.poorman.blogs.entity;
 import java.awt.*;
 
 public class Post {
+    public Post(int id, String title, String text, int author_id) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.author_id = author_id;
+    }
+
     public int getId() {
         return id;
     }
