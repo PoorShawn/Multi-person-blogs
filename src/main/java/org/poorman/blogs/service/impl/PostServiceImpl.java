@@ -8,6 +8,7 @@ import org.poorman.blogs.entity.User;
 import org.poorman.blogs.service.PostService;
 
 import java.nio.file.FileStore;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +29,17 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPosts() {
         //Call PostDAOImpl() to upload post
         PostDAO postDAO = new PostDAOImpl();
-        return postDAO.displayPost();
+        List<Post> posts = postDAO.displayPost();
+
+        List<Post> finalPosts = new ArrayList<>();
+        for (Post post : posts) {
+            // check if the title or text is null
+            if ( post.getTitle() == null || post.getText() == null || Objects.equals(post.getTitle(), "") || Objects.equals(post.getText(), "")) {
+                continue;
+            }
+
+            finalPosts.add(post);
+        }
+        return finalPosts;
     }
 }
