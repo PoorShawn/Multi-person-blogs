@@ -1,13 +1,15 @@
 package org.poorman.blogs.entity;
 
-import java.awt.*;
-
 public class Post {
-    public Post(int id, String title, String text, int author_id) {
+    public Post(int id, String title, String text, int author_id, String description) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.author_id = author_id;
+        this.description = description;
+    }
+
+    public Post() {
     }
 
     public int getId() {
@@ -42,7 +44,16 @@ public class Post {
         this.author_id = author_id;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     int id;
+    String description;
     String title;
     String text;
     int author_id;
