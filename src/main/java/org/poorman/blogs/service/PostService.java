@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface PostService {
     boolean upload(String title, String text, User user) throws ClassNotFoundException;
-    List<Post> getPosts();
+    List<Post> getPostList();
+    Post getPost(int id);
 }

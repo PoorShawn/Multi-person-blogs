@@ -9,6 +9,7 @@
 </h1>
 <br/>
 <a href="login.jsp">login</a>
+<a href="${pageContext.request.contextPath}/postIndex-servlet">posts list</a>
 <%
     // 检查session中是否有特定的属性，比如用户ID，来判断用户是否登录
     //HttpSession session = request.getSession(false);

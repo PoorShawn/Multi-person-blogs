@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PostServiceImpl implements PostService {
+    PostDAO postDAO = new PostDAOImpl();
     @Override
     public boolean upload(String title, String text, User user) throws ClassNotFoundException {
         //Check out parameters
@@ -21,14 +22,12 @@ public class PostServiceImpl implements PostService {
         }
 
         //Call PostDAOImpl() to upload post
-        PostDAO postDAO = new PostDAOImpl();
         return postDAO.uploadPost(title, text, user.getId());
     }
 
     @Override
-    public List<Post> getPosts() {
+    public List<Post> getPostList() {
         //Call PostDAOImpl() to upload post
-        PostDAO postDAO = new PostDAOImpl();
         List<Post> posts = postDAO.displayPost();
 
         List<Post> finalPosts = new ArrayList<>();
@@ -41,5 +40,10 @@ public class PostServiceImpl implements PostService {
             finalPosts.add(post);
         }
         return finalPosts;
+    }
+
+    @Override
+    public Post getPost(int id) {
+        return postDAO.getPostById(id);
     }
 }

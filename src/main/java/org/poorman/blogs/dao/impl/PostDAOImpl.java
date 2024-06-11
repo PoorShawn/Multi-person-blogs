@@ -52,12 +52,43 @@ public class PostDAOImpl implements PostDAO {
                 String title = rs.getString("title");
                 String text = rs.getString("content");
                 int author_id = rs.getInt("author_id");
-                posts.add(new Post(id, title, text, author_id));
+                String description = rs.getString("description");
+                posts.add(new Post(id, title, text, author_id, description));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         return posts;
+    }
+
+    @Override
+    public Post getPostById(int id) {
+        Post post = new Post();
+
+        try (Connection conn = DruidPool.getDataSource().getConnection();
+
+             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM posts WHERE id=?")) {
+            pstmt.setInt(1, id);
+
+            //execute sql
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    //Get parameters from the table
+                    post.setId(rs.getInt("id"));
+                    post.setTitle(rs.getString("title"));
+                    post.setAuthor_id(rs.getInt("author_id"));
+                    post.setText(rs.getString("content"));
+                    post.setDescription(rs.getString("description"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // 异常处理逻辑
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return post;
     }
 }
