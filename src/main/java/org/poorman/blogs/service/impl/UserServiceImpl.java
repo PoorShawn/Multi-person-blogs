@@ -40,8 +40,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean add(String username, String password, String role) {
-        return null;
+    public Boolean add(String username, String password, String role) throws NoSuchAlgorithmException {
+        if( username == null || password == null || role == null) {
+            return false;
+        }
+
+        String salt = PasswordHashing.generateSalt();
+        String hashedPassword = PasswordHashing.hashPassword(password, salt);
+
+        return userDAO.add(username, hashedPassword, role, salt);
     }
 
     @Override

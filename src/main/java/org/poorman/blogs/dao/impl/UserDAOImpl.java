@@ -6,6 +6,7 @@ import org.poorman.blogs.entity.User;
 import org.poorman.blogs.util.DruidPool;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,5 +68,37 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return users;
+    }
+
+    @Override
+    public Boolean register(String username, String password) {
+        return null;
+    }
+
+    @Override
+    public Boolean add(String username, String password, String role, String salt) {
+
+        boolean IsAdded = false;
+
+        try (Connection conn = DruidPool.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users (username, password, role, salt) VALUES (?, ?, ?,?)")) {
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, role);
+            pstmt.setString(4, salt);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                IsAdded = true;
+            }
+
+        } catch (SQLException e) {
+            // 记录日志或抛出自定义异常
+            e.printStackTrace();
+        }
+
+        return IsAdded;
     }
 }

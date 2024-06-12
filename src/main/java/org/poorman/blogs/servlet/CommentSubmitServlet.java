@@ -41,6 +41,8 @@ public class CommentSubmitServlet extends HttpServlet{
         //Return errors if error happens
         if (!IsUploaded) {
             session.setAttribute("message", "评论失败，请重试！");
+        } else {
+            session.setAttribute("message", "评论成功！");
         }
 
         response.sendRedirect("postDisplay-servlet?postId=" + post.getId());

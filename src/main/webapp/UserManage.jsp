@@ -64,7 +64,7 @@
 <%--    <label>New User's Role: <input type="text" name="role"></label>--%>
 <%--    <button type="submit">Add User</button>--%>
 <%--</form>--%>
-<form action="${pageContext.request.contextPath}/userManage-servlet" method="POST">
+<form action="${pageContext.request.contextPath}/userAdd-servlet" method="POST">
     <div>
         <label>New User's Name: <input type="text" name="username"></label>
     </div>
@@ -78,6 +78,15 @@
         <button type="submit">Add User</button>
     </div>
 </form>
+
+<%
+    PrintWriter printWriter = response.getWriter();
+    if(session.getAttribute("message")!= null){
+        printWriter.write((String)session.getAttribute("message"));
+        printWriter.flush();
+        session.removeAttribute("message");
+    }
+%>
 
 </body>
 </html>

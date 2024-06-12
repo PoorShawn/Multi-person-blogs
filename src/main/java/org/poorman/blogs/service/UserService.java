@@ -11,7 +11,7 @@ public interface UserService {
 
     Boolean register(String username, String password);
 
-    Boolean add(String username, String password, String role);
+    Boolean add(String username, String password, String role) throws NoSuchAlgorithmException;
 
     Boolean promote(int userId);
 

@@ -29,11 +29,15 @@ public class UserManageServlet extends HttpServlet {
         String action = request.getParameter("action");
         switch (action) {
             case "add":
-                addUser(request, response);
+                System.out.println("addddddd");
+                request.getRequestDispatcher("/UserManage.jsp");
                 break;
             case "promote":
+                System.out.println("promot");
             case "demote":
+                System.out.println("demot");
             case "delete":
+                System.out.println("delete");
                 modifyUser(request, response, action);
                 break;
             default:
@@ -41,13 +45,23 @@ public class UserManageServlet extends HttpServlet {
         }
     }
 
-    private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String newUsername = request.getParameter("newUsername");
-        String password = request.getParameter("password");
-        String role = request.getParameter("role");
-        userService.add(newUsername, password ,role); // 实现创建用户的逻辑
-        response.sendRedirect(request.getContextPath() + "/users.jsp");
-    }
+//    private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+//        String newUsername = request.getParameter("newUsername");
+//        String password = request.getParameter("password");
+//        String role = request.getParameter("role");
+//
+//
+//        Boolean IsAdded = false;
+//        HttpSession session = request.getSession();
+//        IsAdded =  userService.add(newUsername, password ,role); // 实现创建用户的逻辑
+//        if (!IsAdded) {
+//            session.setAttribute("message", "用户新增失败，请重试！");
+//            //request.getRequestDispatcher("/UserManager.jsp").forward(request, response);
+//            response.sendRedirect("/userManage-servlet");
+//        }
+//
+//        response.sendRedirect(request.getContextPath() + "/userManage-servlet");
+//    }
 
     private void modifyUser(HttpServletRequest request, HttpServletResponse response, String action) throws IOException, ServletException, ServletException {
         int userId = Integer.parseInt(request.getParameter("id"));
