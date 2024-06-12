@@ -13,4 +13,8 @@ public interface UserDAO {
     Boolean register(String username, String password);
 
     Boolean add(String username, String password, String role, String salt);
+
+    Boolean updateUserRole(int userId, String role);
+
+    Boolean deleteUserById(int userId);
 }

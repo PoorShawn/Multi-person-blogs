@@ -101,4 +101,51 @@ public class UserDAOImpl implements UserDAO {
 
         return IsAdded;
     }
+
+    @Override
+    public Boolean updateUserRole(int userId, String role) {
+        boolean isUpdated = false;
+
+        try (Connection conn = DruidPool.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET role = ? WHERE id = ?")) {
+
+            pstmt.setString(1, role); // 设置要更新的角色
+            pstmt.setInt(2, userId);  // 设置用户ID作为更新条件
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                isUpdated = true;
+            }
+
+        } catch (SQLException e) {
+            // 记录日志或抛出自定义异常，而不是简单打印堆栈跟踪
+            e.printStackTrace();
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public Boolean deleteUserById(int userId) {
+        boolean isDeleted = false;
+
+        try (Connection conn = DruidPool.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM users WHERE id = ?")) {
+
+            pstmt.setInt(1, userId);  // 设置要删除的用户ID
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                isDeleted = true;
+            }
+
+        } catch (SQLException e) {
+            // 记录日志或抛出自定义异常，而不是简单打印堆栈跟踪
+            e.printStackTrace();
+        }
+
+        return isDeleted;
+    }
 }

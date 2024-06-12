@@ -39,11 +39,11 @@
         <td><%= user.getRole() %></td>
         <td>
             <% if("USER".equals(user.getRole())) { %>
-            <a href='UserActionServlet?action=promote&id=<%= user.getId() %>'>Promote</a>
+            <a href='${pageContext.request.contextPath}/userRoleAlter-servlet?action=promote&userId=<%= user.getId() %>'>Promote</a>
             <% } else if("ADMIN".equals(user.getRole())) { %>
-            <a href='UserActionServlet?action=demote&id=<%= user.getId() %>'>Demote</a>
+            <a href='${pageContext.request.contextPath}/userRoleAlter-servlet?action=demote&userId=<%= user.getId() %>'>Demote</a>
             <% } %>
-            <a href='UserActionServlet?action=delete&id=<%= user.getId() %>' onclick='return confirm(\"Confirm deletion?\");'>Delete</a>
+            <a href='${pageContext.request.contextPath}/userRoleAlter-servlet?action=delete&userId=<%= user.getId() %>' onclick='return confirm(\"Confirm deletion?\");'>Delete</a>
         </td>
     </tr>
     <%

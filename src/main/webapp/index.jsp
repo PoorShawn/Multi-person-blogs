@@ -1,3 +1,4 @@
+<%@ page import="org.poorman.blogs.entity.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -24,6 +25,13 @@
 <a href="postEdit.jsp">edit post</a>
 <% } %>
 
+<%
+    User user = (User) session.getAttribute("currentUser");
+    if (isLoggedIn) {
+%>
 <a href="${pageContext.request.contextPath}/userManage-servlet">manage users</a>
+<% } %>
+
+<%--<a href="${pageContext.request.contextPath}/userManage-servlet">manage users</a>--%>
 </body>
 </html>

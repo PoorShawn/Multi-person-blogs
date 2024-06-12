@@ -53,17 +53,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean promote(int userId) {
-        return null;
+        if (userId == 0) {
+            return false;
+        }
+
+        return userDAO.updateUserRole(userId, "ADMIN");
     }
 
     @Override
     public Boolean demote(int userId) {
-        return null;
+        if (userId == 0) {
+            return false;
+        }
+
+        return userDAO.updateUserRole(userId, "USER");
     }
 
     @Override
     public Boolean delete(int userId) {
-        return null;
+        if (userId == 0) {
+            return false;
+        }
+
+        return userDAO.deleteUserById(userId);
     }
 
     @Override
