@@ -23,7 +23,7 @@
     <tr>
         <td>
             作者ID:<%=post.getAuthor_id()%>&nbsp;&nbsp;&nbsp;
-            <a href="${pageContext.request.contextPath}/postDisplay-servlet?id=<%=post.getId()%>" style="text-decoration:none;">
+            <a href="${pageContext.request.contextPath}/postDisplay-servlet?postId=<%=post.getId()%>" style="text-decoration:none;">
                 <strong>标题: <%=post.getTitle()%></strong>
             </a>
         </td>

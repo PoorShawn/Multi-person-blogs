@@ -15,8 +15,31 @@ import java.util.List;
 
 public class CommentDAOImpl implements CommentDAO {
     @Override
-    public boolean upload(String content, int postId, int userId) throws ClassNotFoundException {
-        return false;
+    public boolean upload(String content, int postId, int userId) throws ClassNotFoundException, SQLException {
+        boolean IsUploaded = false;
+
+        try (Connection conn = DruidPool.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO comments (content, create_at, posts_id, user_id) VALUES (?, ?, ?,?)")) {
+
+            LocalDateTime now = LocalDateTime.now();
+
+            pstmt.setString(1, content);
+            pstmt.setObject(2, now);
+            pstmt.setInt(3, postId);
+            pstmt.setInt(4, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                IsUploaded = true;
+            }
+
+        } catch (SQLException e) {
+            // 记录日志或抛出自定义异常
+            e.printStackTrace();
+        }
+
+        return IsUploaded;
     }
 
     @Override
