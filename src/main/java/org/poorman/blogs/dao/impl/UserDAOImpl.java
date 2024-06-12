@@ -1,10 +1,13 @@
 package org.poorman.blogs.dao.impl;
 
 import org.poorman.blogs.dao.UserDAO;
+import org.poorman.blogs.entity.Post;
 import org.poorman.blogs.entity.User;
 import org.poorman.blogs.util.DruidPool;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserDAOImpl implements UserDAO {
@@ -42,5 +45,27 @@ public class UserDAOImpl implements UserDAO {
             throw new RuntimeException(e);
         }
         return user;
+    }
+
+    @Override
+    public List<User> getUserList() {
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = DruidPool.getDataSource().getConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                String role = rs.getString("role");
+
+                users.add(new User(id, role, username));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return users;
     }
 }
