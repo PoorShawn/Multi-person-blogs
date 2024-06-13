@@ -9,4 +9,6 @@ public interface CommentDAO {
     boolean upload(String content, int postId, int userId) throws ClassNotFoundException, SQLException;
 
     List<Comment> getCommentListByPostId(int postId);
+
+    boolean deleteCommentById(int id);
 }

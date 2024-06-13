@@ -43,7 +43,7 @@
             <% } else if("ADMIN".equals(user.getRole())) { %>
             <a href='${pageContext.request.contextPath}/userRoleAlter-servlet?action=demote&userId=<%= user.getId() %>'>Demote</a>
             <% } %>
-            <a href='${pageContext.request.contextPath}/userRoleAlter-servlet?action=delete&userId=<%= user.getId() %>' onclick='return confirm(\"Confirm deletion?\");'>Delete</a>
+            <a href='${pageContext.request.contextPath}/userRoleAlter-servlet?action=delete&userId=<%= user.getId() %>'>Delete</a>
         </td>
     </tr>
     <%

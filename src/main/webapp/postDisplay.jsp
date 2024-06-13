@@ -1,7 +1,8 @@
 <%@ page import="org.poorman.blogs.entity.Post" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.poorman.blogs.entity.Comment" %>
-<%@ page import="java.io.PrintWriter" %><%--
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="org.poorman.blogs.entity.User" %><%--
   Created by IntelliJ IDEA.
   User: poorshawn
   Date: 2024/6/6
@@ -41,6 +42,7 @@
 
 <%
     List<Comment> comments = (List<Comment>) request.getAttribute("commentList"); // 假设从请求中获取到了评论列表
+    User currentUser = (User) session.getAttribute("currentUser");
 %>
 
 <!-- 在帖子内容展示之后，添加评论展示区域 -->
@@ -54,6 +56,7 @@
         <th>评论时间</th>
         <th>评论用户ID</th>
         <th>评论内容</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tbody>
@@ -62,6 +65,11 @@
         <th><%=comment.getCreateAt()%></th>
         <td><%=comment.getUserId()%></td>
         <td><%=comment.getContent()%></td>
+        <td>
+            <% if ("ADMIN".equals(currentUser.getRole()) || comment.getUserId()== currentUser.getId()) { %>
+            <a href="${pageContext.request.contextPath}/commentUpdate-servlet?commentId=<%=comment.getId()%>">删除</a>
+            <% } %>
+        </td>
     </tr>
     <% } %>
     </tbody>

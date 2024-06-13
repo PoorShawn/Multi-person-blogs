@@ -65,4 +65,28 @@ public class CommentDAOImpl implements CommentDAO {
 
         return commentList;
     }
+
+    @Override
+    public boolean deleteCommentById(int id) {
+
+        boolean isDeleted = false;
+
+        try (Connection conn = DruidPool.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM comments WHERE id = ?")) {
+
+            pstmt.setInt(1, id);  // 设置要删除的用户ID
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                isDeleted = true;
+            }
+
+        } catch (SQLException e) {
+            // 记录日志或抛出自定义异常，而不是简单打印堆栈跟踪
+            e.printStackTrace();
+        }
+
+        return isDeleted;
+    }
 }

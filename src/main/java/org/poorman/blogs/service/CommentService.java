@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface CommentService {
     boolean upload(String content, int postId, int userId) throws ClassNotFoundException, SQLException;
+
     List<Comment> getCommentList(int postId);
+
+    boolean delete(int commentId);
 }

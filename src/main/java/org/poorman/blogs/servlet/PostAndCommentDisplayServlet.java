@@ -19,7 +19,15 @@ import java.util.List;
 @WebServlet(name = "PostDisplayServlet", value = "/postDisplay-servlet")
 public class PostAndCommentDisplayServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("postId"));
+        int id = 0;
+        HttpSession session = request.getSession();
+        if (request.getParameter("postId") != null) {
+            id = Integer.parseInt(request.getParameter("postId"));
+        } else {
+            Post post = (Post) session.getAttribute("currentPost");
+            id = post.getId();
+        }
+//        int id = Integer.parseInt(request.getParameter("postId"));
         //System.out.println("post_id"+id);
 
         //Call PostServiceImpl() to get post
@@ -32,7 +40,7 @@ public class PostAndCommentDisplayServlet extends HttpServlet {
         List<Comment> commentList = commentService.getCommentList(id);
         request.setAttribute("commentList",commentList);
 
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
         session.setAttribute("currentPost",post);
 
         request.getRequestDispatcher("/postDisplay.jsp").forward(request, response);

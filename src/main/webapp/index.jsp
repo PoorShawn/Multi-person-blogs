@@ -1,4 +1,5 @@
 <%@ page import="org.poorman.blogs.entity.User" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@
 <% } %>
 
 <%
-    User user = (User) session.getAttribute("currentUser");
+    User currentUser = (User) session.getAttribute("currentUser");
     if (isLoggedIn) {
 %>
 <a href="${pageContext.request.contextPath}/userManage-servlet">manage users</a>

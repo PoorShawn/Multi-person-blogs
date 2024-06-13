@@ -29,4 +29,12 @@ public class CommentServiceImpl implements CommentService {
 
         return commentDAO.getCommentListByPostId(postId);
     }
+
+    @Override
+    public boolean delete(int commentId) {
+        if (commentId == 0) {
+            return false;
+        }
+        return commentDAO.deleteCommentById(commentId);
+    }
 }
