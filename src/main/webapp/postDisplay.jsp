@@ -1,5 +1,8 @@
 <%@ page import="org.poorman.blogs.entity.Post" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="org.poorman.blogs.entity.Comment" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="org.poorman.blogs.entity.User" %><%--
   Created by IntelliJ IDEA.
   User: poorshawn
   Date: 2024/6/6
@@ -27,41 +30,81 @@
     <tr>
         <td colspan="2"><%=post.getText()%></td>
     </tr>
-<%--    <!-- 假设Post类中包含一个comments列表属性 -->--%>
-<%--    <%--%>
-<%--        if(post.getComments() != null && !post.getComments().isEmpty()){--%>
-<%--            for(String comment : post.getComments()){--%>
-<%--    %>--%>
-<%--    <!-- 帖子的第三行开始，每次循环为一条评论 -->--%>
-<%--    <tr>--%>
-<%--        <td colspan="2">-&nbsp;<i><%=comment%></i></td>--%>
-<%--    </tr>--%>
-<%--    <%--%>
-<%--        }--%>
-<%--    } else {--%>
-<%--    %>--%>
-    <tr><td colspan="2">暂无评论</td></tr>
-<%--    <%--%>
-<%--        }--%>
-<%--    %>--%>
-    <!-- 分割不同帖子的空白行 -->
-    <tr><td colspan="2" height="10"></td></tr>
+
+<%--    <tr><td colspan="2" height="10"></td></tr>--%>
 
     <%
     } else {
     %>
-
     <tr><td colspan="2">暂无帖子!</td></tr>
     <% } %>
 </table>
 
-<%--<!-- 新增评论表单部分 -->--%>
-<%--<h3>添加评论</h3>--%>
-<%--<form action="submitComment.jsp" method="post">--%>
-<%--    <input type="hidden" name="postId" value="${currentPostId}">--%>
-<%--    <label for="commentContent">评论内容:</label><br>--%>
-<%--    <textarea id="commentContent" name="content" rows="4" cols="50" required></textarea><br>--%>
-<%--    <input type="submit" value="提交评论">--%>
-<%--</form>--%>
+<%
+    List<Comment> comments = (List<Comment>) request.getAttribute("commentList"); // 假设从请求中获取到了评论列表
+    User currentUser = (User) session.getAttribute("currentUser");
+%>
+
+<!-- 在帖子内容展示之后，添加评论展示区域 -->
+<%
+    if (comments != null && !comments.isEmpty()) {
+%>
+<h3>评论列表</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>评论时间</th>
+        <th>评论用户ID</th>
+        <th>评论内容</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for (Comment comment : comments) { %>
+    <tr>
+        <th><%=comment.getCreateAt()%></th>
+        <td><%=comment.getUserId()%></td>
+        <td><%=comment.getContent()%></td>
+        <td>
+            <% if ("ADMIN".equals(currentUser.getRole()) || comment.getUserId()== currentUser.getId()) { %>
+            <a href="${pageContext.request.contextPath}/commentUpdate-servlet?commentId=<%=comment.getId()%>">删除</a>
+            <% } %>
+        </td>
+    </tr>
+    <% } %>
+    </tbody>
+</table>
+<%
+} else {
+%>
+<tr><td colspan="2">暂无评论</td></tr>
+<%
+    }
+%>
+
+<!-- 新增评论表单部分 -->
+<%
+    // 检查session中是否有用户ID，来判断用户是否登录
+    //HttpSession session = request.getSession(false);
+    boolean isLoggedIn = session.getAttribute("currentUser") != null;
+%>
+<% if (isLoggedIn) { %>
+<h3>添加评论</h3>
+<form action="${pageContext.request.contextPath}/commentSubmit-servlet" method="post">
+    <%--    <input type="hidden" name="postId" value="${currentPostId}">--%>
+    <label for="commentContent">评论内容:</label><br>
+    <textarea id="commentContent" name="content" rows="4" cols="50" required></textarea><br>
+    <input type="submit" value="提交评论">
+</form>
+<% } %>
+
+<%
+    PrintWriter printWriter = response.getWriter();
+    if(session.getAttribute("message")!= null){
+        printWriter.write((String)session.getAttribute("message"));
+        printWriter.flush();
+        session.removeAttribute("message");
+    }
+%>
 </body>
 </html>

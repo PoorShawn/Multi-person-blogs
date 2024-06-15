@@ -5,7 +5,17 @@ public class User {
     String username;
     String password;
     String role;
+
+    public User(int id,  String role, String username) {
+        this.id = id;
+        this.role = role;
+        this.username = username;
+    }
+
     String salt;
+
+    public User() {
+    }
 
     public String getSalt() {
         return salt;

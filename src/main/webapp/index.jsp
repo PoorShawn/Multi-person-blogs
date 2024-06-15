@@ -1,3 +1,5 @@
+<%@ page import="org.poorman.blogs.entity.User" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -8,17 +10,29 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="login.jsp">login</a>
+<%--<a href="login.jsp">login</a>--%>
+
 <a href="${pageContext.request.contextPath}/postIndex-servlet">posts list</a>
 <%
-    // 检查session中是否有特定的属性，比如用户ID，来判断用户是否登录
-    //HttpSession session = request.getSession(false);
+    // 检查session中是否有用户,来判断用户是否登录
     boolean isLoggedIn = session.getAttribute("currentUser") != null;
 %>
-<% if (isLoggedIn) { %>
-<%--<a href="postUpload.jsp">upload post</a>--%>
-<a href="postEdit.jsp">edit post</a>
-<a href="${pageContext.request.contextPath}/postDisplay-servlet">display posts</a>
+
+<% if (!isLoggedIn) { %>
+<a href="login.jsp">login</a>
 <% } %>
+
+<% if (isLoggedIn) { %>
+<a href="postEdit.jsp">edit post</a>
+<% } %>
+
+<%
+    User currentUser = (User) session.getAttribute("currentUser");
+    if (isLoggedIn) {
+%>
+<a href="${pageContext.request.contextPath}/userManage-servlet">manage users</a>
+<% } %>
+
+<%--<a href="${pageContext.request.contextPath}/userManage-servlet">manage users</a>--%>
 </body>
 </html>
