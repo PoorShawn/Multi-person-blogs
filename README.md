@@ -1,4 +1,4 @@
 This is a blog website for multi-person. 
 We are generally using jsp, servlet for practice.
 
-Hello!!!
+If you have any advice, please contact us! 
